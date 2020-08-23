@@ -43,11 +43,11 @@ title('Sinal de Controle (Entrada do Sistema)')
 
 %% Utilize este espaço para identificar seu modelo
 
-
-
-
-
-
+z = tf([1 0],[1],T);
+Tetha = zeros([1,5]);
+Gz1 = y/u
+Gz2 = ((Tetha(3)*z^2+Tetha(4)*z+Tetha(5))/(z^2-Tetha(1)*z-Tetha(2)));
+Gs = d2c(Gz2); %Qual método usar?
 
 
 
