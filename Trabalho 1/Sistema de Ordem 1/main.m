@@ -42,21 +42,32 @@ ylabel('u(t)')
 title('Sinal de Controle (Entrada do Sistema)')
 
 %% Utilize este espaço para identificar seu modelo
-
+%Inicializações
 z = tf([1 0],[1],T);
 Tetha = zeros([1,5]);
-Gz1 = y/u
+[N,M] = size(y);
+Psi = zeros(N,5);
+Y = zeros(N,1);
+
+%Povoamento de Psi e Y
+for k = 3:N
+    Psi(k,:) = [y(k-1) y(k-2) u(k) u(k-1) u(k-2)];
+    Y(k) = y(k);
+end
+
+%Cálculo de Tetha
+Tetha = (transp(Psi)*Psi)\transp(Psi)*Y;
+
+%Cálculo de Gz e Gs
+z = tf([1 0],[1],T);
 Gz2 = ((Tetha(3)*z^2+Tetha(4)*z+Tetha(5))/(z^2-Tetha(1)*z-Tetha(2)));
 Gs = d2c(Gz2); %Qual método usar?
-
-
-
 
 %% Validação do Modelo Indentificado
 
 % Comente o "return" a seguir para rodar este bloco.
 
-return
+%return
 
 % Obs: Para que este trecho do código funcione, você deve ter declarado
 % o modelo contínuo do sistema com o nome "Gs" utilizando a função "tf".

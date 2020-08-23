@@ -13,7 +13,7 @@ function u = control( t , y , r , T )
 
 % Programe sua lógica de controle aqui ------------------------------------
 
-    u = 0;
+    u = 1;
 
     % Exempo de degrau em malha-aberta para identificação: 
     
