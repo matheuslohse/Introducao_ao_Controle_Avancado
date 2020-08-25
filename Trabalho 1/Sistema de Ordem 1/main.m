@@ -42,26 +42,26 @@ ylabel('u(t)')
 title('Sinal de Controle (Entrada do Sistema)')
 
 %% Utilize este espaço para identificar seu modelo
-%Inicializações
-z = tf([1 0],[1],T);
-Tetha = zeros([1,5]);
-[N,M] = size(y);
-Psi = zeros(N,5);
-Y = zeros(N,1);
 
-%Povoamento de Psi e Y
-for k = 3:N
-    Psi(k,:) = [y(k-1) y(k-2) u(k) u(k-1) u(k-2)];
-    Y(k) = y(k);
-end
+y1=zeros(size(y));
+m=1;
+y1(m+1:end) = y(1:end-m);
 
-%Cálculo de Tetha
-Tetha = (transp(Psi)*Psi)\transp(Psi)*Y;
+u1=zeros(size(u));
+k=1;
+u1(k+1:end) = u(1:end-k);
 
-%Cálculo de Gz e Gs
-z = tf([1 0],[1],T);
-Gz2 = ((Tetha(3)*z^2+Tetha(4)*z+Tetha(5))/(z^2-Tetha(1)*z-Tetha(2)));
-Gs = d2c(Gz2); %Qual método usar?
+u2=zeros(size(u));
+l=2;
+u2(l+1:end) = u(1:end-l);
+
+psi = [y1 u1 u2];
+
+teta = ((psi'*psi)^-1)*psi'*y;
+
+Gz = tf([teta(2) teta(3) ],[1 -teta(1)],T);
+
+Gs = d2c(Gz, 'zoh');
 
 %% Validação do Modelo Indentificado
 

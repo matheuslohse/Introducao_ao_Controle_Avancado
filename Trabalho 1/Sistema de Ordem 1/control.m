@@ -13,15 +13,19 @@ function u = control( t , y , r , T )
 
 % Programe sua lógica de controle aqui ------------------------------------
 
-    u = 0;
-
-    % Exempo de degrau em malha-aberta para identificação: 
-    
      if t >= 1
         u = 1;
      else
         u = 0;
      end
+
+    % Exempo de degrau em malha-aberta para identificação: 
+    
+%     if t >= 1
+%        u = 1;
+%     else
+%        u = 0;
+%     end
     
     % Exemplo de controle em malha-fechada proporcional:
     
