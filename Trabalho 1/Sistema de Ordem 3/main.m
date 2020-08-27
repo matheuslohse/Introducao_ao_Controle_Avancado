@@ -14,7 +14,7 @@ T = 0.01; % s
 
 % Flag para habilitar/desabilitar ruído no sensor da planta
 global noise
-noise = false; %( false -> sem ruído , true -> com ruído )
+noise = true; %( false -> sem ruído , true -> com ruído )
 
 %% Ensaio do Sistema
 
