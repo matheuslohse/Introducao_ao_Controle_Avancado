@@ -14,7 +14,7 @@ T = 0.01; % s
 
 % Flag para habilitar/desabilitar ruído no sensor da planta
 global noise
-noise = false; %( false -> sem ruído , true -> com ruído )
+noise = true; %( false -> sem ruído , true -> com ruído )
 
 %% Ensaio do Sistema
 
@@ -62,6 +62,7 @@ teta = ((psi'*psi)^-1)*psi'*y;
 Gz = tf([teta(2) teta(3) ],[1 -teta(1)],T);
 
 Gs = d2c(Gz, 'zoh');
+Gs_Ident = tf([-0.01542 5.826],[1 1.226]);
 
 %% Validação do Modelo Indentificado
 
@@ -85,3 +86,13 @@ xlabel('t')
 ylabel('u(t)')
 title('Respostas ao Degrau Unitário')
 legend('Sistema Original','Modelo','Location','SE')
+figure
+plot(ts,ys,'r','Linewidth',2)
+hold on
+step(Gs,ttotal,'b');
+step(Gs_Ident,ttotal,'c');%k, c, m
+grid on
+xlabel('t')
+ylabel('u(t)')
+title('Respostas ao Degrau Unitário')
+legend('Sistema Original','Modelo Quad.','Modelo Ident','Location','SE')

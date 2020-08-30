@@ -71,6 +71,7 @@ teta = ((psi'*psi)^-1)*psi'*y;
 Gz = tf([teta(3) teta(4) teta(5)],[1 -teta(1) -teta(2)],T);
 
 Gs = d2c(Gz, 'zoh');
+Gs_Ident = tf([-0.009224 6.08],[1 1.241 1.475]);
 
 %% Validação do Modelo Indentificado
 
@@ -93,4 +94,13 @@ grid on
 xlabel('t')
 ylabel('u(t)')
 title('Respostas ao Degrau Unitário')
-legend('Sistema Original','Modelo','Location','SE')
+figure
+plot(ts,ys,'r','Linewidth',2)
+hold on
+step(Gs,ttotal,'b')
+step(Gs_Ident,ttotal,'c');%k, c, m
+grid on
+xlabel('t')
+ylabel('u(t)')
+title('Respostas ao Degrau Unitário')
+legend('Sistema Original','Modelo Quad.','Modelo Ident','Location','SE');
