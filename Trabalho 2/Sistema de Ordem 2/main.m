@@ -35,6 +35,10 @@ dist = 0; %( 0 -> sem distúrbio ,
 % d -> sinal de perturbação aplicado na planta
 
 Gs_Ident = tf([-0.009224 6.08],[1 1.241 1.475]);
+Fs2 = tf([10],[1 10]);
+Cs2 = tf([5 50],[1]);
+
+step(Fs2*feedback(Cs2*Gs_Ident,1))
 
 %% Plotagem
 
