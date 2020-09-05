@@ -36,9 +36,13 @@ dist = 0; %( 0 -> sem distúrbio ,
 
 Gs_Ident = tf([-0.01542 5.826],[1 1.226]);
 Cs_rootLocus = tf([3 18],[1 0]);
-F
+Fs_rootLocus = tf([6],[1 6]);
 
-
+figure
+Sis1 = Gs_Ident*Cs_rootLocus;
+Sis2 = feedback(Sis1,1);
+step(Fs_rootLocus*Sis2)
+title('ROOTLOCUS')
 
 %% Plotagem
 
