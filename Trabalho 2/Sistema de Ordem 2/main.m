@@ -34,6 +34,8 @@ dist = 0; %( 0 -> sem distúrbio ,
 % r -> sinal de referência do controle
 % d -> sinal de perturbação aplicado na planta
 
+Gs_Ident = tf([-0.009224 6.08],[1 1.241 1.475]);
+
 %% Plotagem
 
 figure
