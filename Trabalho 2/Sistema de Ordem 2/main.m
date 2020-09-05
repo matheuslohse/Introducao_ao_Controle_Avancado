@@ -37,8 +37,10 @@ dist = 0; %( 0 -> sem distúrbio ,
 Gs_Ident = tf([-0.009224 6.08],[1 1.241 1.475]);
 Fs2 = tf([10],[1 10]);
 Cs2 = tf([5 50],[1]);
-
-step(Fs2*feedback(Cs2*Gs_Ident,1))
+sys1 = Cs2*Gs_Ident;
+Sys2 = Fs2*feedback(Cs2*Gs_Ident,1)
+step(Sys2)
+title('ROOTLOCUS')
 
 %% Plotagem
 
