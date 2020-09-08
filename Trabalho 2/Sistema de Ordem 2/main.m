@@ -36,8 +36,8 @@ dist = 0; %( 0 -> sem distúrbio ,
 
 Gs_Ident = tf([-0.009224 6.08],[1 1.241 1.475]);
 
-Fs2 = tf([80],[1 16 80]);
-Cs2 = 7.5*tf([1 16 80],[1 0]);
+Fs2 = tf([14.76],[1 6 14.76]);
+Cs2 = 43.191 * tf([1 6 14.76],[1 25 0]);
 sys1 = Cs2*Gs_Ident;
 Sys2 = Fs2*feedback(Cs2*Gs_Ident,1)
 step(Sys2)
