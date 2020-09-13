@@ -9,11 +9,11 @@ function [ r ] = setpoint( t )
 
     % Exemplo: Referência do tipo degrau
 
-%     if t >= 1
-%        r = 1;
-%     else
-%        r = 0;
-%     end
+    if t >= 1
+       r = 10;
+    else
+       r = 0;
+    end
 
     % Exemplo: Referência do tipo senoidal
     

@@ -36,26 +36,34 @@ dist = 0; %( 0 -> sem distúrbio ,
 
 % Gs_Ident = tf([-0.05596 0.1035 -1.807 117.7],[1 4.2 12.23 25.19]);
 Gs = tf([112], [1 4.06 11.98 23.9]);
-C = tf(Crl);
-F = tf(Frl);
+Cs = tf(Crl);
+Fs = tf(Frl);
 
-step(F*feedback(C*Gs,1))
+step(Fs*feedback(Cs*Gs,1));
+hold on
+T = 0.01; 
 
+Cz = c2d(Cs,T,'zoh');
+Fz = c2d(Fs,T,'zoh');
+
+contr = control( t , y , r , T );
+step(contr);
+hold off
 %% Plotagem
 
-figure
-subplot(2,1,1)
-stairs(t,r,'r')
-hold on
-stairs(t,y,'b')
-grid on
-xlabel('t [s]')
-ylabel('y(t)')
-title('Resposta (Saída do Sistema)')
-legend('Referência','Saída','Location','SE')
-subplot(2,1,2)
-stairs(t,u,'b')
-grid on
-xlabel('t (seconds)')
-ylabel('u(t)')
-title('Sinal de Controle (Entrada do Sistema)')
+% figure
+% subplot(2,1,1)
+% stairs(t,r,'r')
+% hold on
+% stairs(t,y,'b')
+% grid on
+% xlabel('t [s]')
+% ylabel('y(t)')
+% title('Resposta (Saída do Sistema)')
+% legend('Referência','Saída','Location','SE')
+% subplot(2,1,2)
+% stairs(t,u,'b')
+% grid on
+% xlabel('t (seconds)')
+% ylabel('u(t)')
+% title('Sinal de Controle (Entrada do Sistema)')
