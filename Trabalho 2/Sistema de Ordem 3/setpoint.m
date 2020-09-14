@@ -9,7 +9,7 @@ function [ r ] = setpoint( t )
 
     % Exemplo: Referência do tipo degrau
 
-    if t >= 1
+    if t >= 0
        r = 10;
     else
        r = 0;

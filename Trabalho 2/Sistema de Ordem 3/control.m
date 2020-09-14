@@ -22,12 +22,13 @@ function u = control( t , y , r , T )
     persistent e ui rf ri k
        
     if t == 0
-       ri(1:4) = r; 
-       rf(1:4) = r;
+       ri(1:4) = 0; 
+       rf(1:4) = 0;
        ui(1:4) = 0;
        e(1:4) = 0;
     end
     
+    ri(1) = r;
     rf(1) = 0.003402*ri(2)+0.003265*ri(3)+1.877*rf(2)-0.8834*rf(3);
     %e = r - y;
     e(1) = rf(1)-y;
