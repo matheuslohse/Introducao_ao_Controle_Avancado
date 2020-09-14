@@ -9,8 +9,8 @@ function [ r ] = setpoint( t )
 
     % Exemplo: Referência do tipo degrau
 
-    if t >= 1
-       r = 10;
+    if t >= 0
+       r = 1;
     else
        r = 0;
     end
@@ -22,8 +22,8 @@ function [ r ] = setpoint( t )
 %     w = 2*pi/per;
 %     
 %     r = 10*sin( w*t );
-%     
-    
+
+
 
 end
 

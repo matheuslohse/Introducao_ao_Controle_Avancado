@@ -4,16 +4,16 @@ function [ r ] = setpoint( t )
 % enviado para o sistema de controle.
 
 % Programe aqui a definição de "r"
-
-     r = 0;
+% 
+%      r = 0;
 
     % Exemplo: Referência do tipo degrau
 
-%     if t >= 1
-%        r = 1;
-%     else
-%        r = 0;
-%     end
+    if t >= 1
+       r = 1;
+    else
+       r = 0;
+    end
 
     % Exemplo: Referência do tipo senoidal
     

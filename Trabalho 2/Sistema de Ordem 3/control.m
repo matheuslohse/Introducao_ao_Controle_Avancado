@@ -12,60 +12,37 @@ function u = control( t , y , r , T )
     % u -> sinal de controle a ser entregue a planta
 
 % Programe sua lógica de controle aqui ------------------------------------
-    
-    u=0;
-
-    % Exempo de degrau em malha-aberta para identificação: 
-    
-    if t >= 1
-       u = 1;
-    else
-       u = 0;
-    end
-    
-    % Exemplo de controle em malha-fechada proporcional:
-    
-%     Kp = 1;
-%     
-%     e = r-y;
-%     u = -Kp*e;
-
-    % Exemplo de controle em malha-fechada PID:
-    
-%     persistent ui ed
-%     if t == 0
-%        ui = 0;
-%        ed = 0;
+%     if t >= 1
+%        u = 1;
+%     else
+%        u = 0;
 %     end
-%     
-%     Kp = 1;
-%     Ki = 1;
-%     Kd = 1;
-%     
-%     e  = r-y;
-%     ed = e; 
-% 
-%     up = Kp*e;
-%     ui = ui + Ki*T*e;
-%     ud = Kd*(e-ed)/T;
-%     
-%     u  = up+ui+ud;
-    
-
+%    
 %%Trabalho 2
-    persistent z
+    persistent e ui rf ri k
+       
     if t == 0
-       z(1:3) = 0;
+       ri(1:4) = r; 
+       rf(1:4) = r;
+       ui(1:4) = 0;
+       e(1:4) = 0;
     end
     
-    C = (1205*z(3)-3279*z(2)+2952*z-877.3)/(z(3)-1.988*z(2)+1.29*z(1)-0.3012);
-    F = (0.003402*z(1)+0.003265)/(z(2)-1.877*z(1)+0.8834);
-    in = r*F;
-    CzGz = C*y;;
-    e = in-CzGz;
+    rf(1) = 0.003402*ri(2)+0.003265*ri(3)+1.877*rf(2)-0.8834*rf(3);
+    %e = r - y;
+    e(1) = rf(1)-y;
+    ui(1) = 1.988*ui(2) - 1.29*ui(3) + 0.3012*ui(4) + 1205*e(1) - 3279*e(2) + 2952*e(3) - 877.32*e(4); 
     
-    z(3) = z(2);
-    z(2) = z(1);
-    
+    for R = 2:4
+       ri(R) = ri(R-1); 
+       rf(R) = rf(R-1);
+       ui(R) = ui(R-1);
+       e(R) = e(R-1);
+    end
+    if ui(1) == 0
+        u = 1;
+    else
+        u = ui(1);
+    end
 end
 

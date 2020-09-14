@@ -41,9 +41,11 @@ Fs_rootLocus = tf([6],[1 6]);
 figure
 Sis1 = Gs_Ident*Cs_rootLocus;
 Sis2 = feedback(Sis1,1);
-step(Fs_rootLocus*Sis2)
+step(Fs_rootLocus*Sis2,'m')
 title('ROOTLOCUS')
-
+% hold on
+% stairs(t,y,'b')
+% grid on
 %% Plotagem
 
 figure
