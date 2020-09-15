@@ -5,12 +5,12 @@ function [ r ] = setpoint( t )
 
 % Programe aqui a definição de "r"
 
-    r = 0;
+%     r = 0;
 
     % Exemplo: Referência do tipo degrau
 
     if t >= 1
-       r = 10;
+       r = 1;
     else
        r = 0;
     end

@@ -2,6 +2,7 @@ clc
 close all
 clear all
 load ('arquivo.mat');
+load ('variaveis.mat');
 addpath('data');
 
 %% Configuração da Simulação (não alterar)
@@ -41,8 +42,11 @@ Fs = tf(Frl);
 step(Fs*feedback(Cs*Gs,1));
 hold on
 
-Cz = c2d(Cs,T,'zoh');
-Fz = c2d(Fs,T,'zoh');
+Cz = c2d(Cs,T);
+Fz = c2d(Fs,T);
+Gz = c2d(Gs,T);
+
+step(Fdisc*feedback(Cdisc*Gz,1));
 
 hold off
 %% Plotagem
