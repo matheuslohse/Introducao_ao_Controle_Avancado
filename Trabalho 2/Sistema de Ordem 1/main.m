@@ -42,10 +42,11 @@ figure
 Sis1 = Gs_Ident*Cs_rootLocus;
 Sis2 = feedback(Sis1,1);
 step(Fs_rootLocus*Sis2,'m')
-title('ROOTLOCUS')
-% hold on
-% stairs(t,y,'b')
-% grid on
+hold on
+stairs(t,y,'b')
+legend('RootLocus','Control')
+grid on
+title('Resposta ao Degrau')
 %% Plotagem
 
 figure
