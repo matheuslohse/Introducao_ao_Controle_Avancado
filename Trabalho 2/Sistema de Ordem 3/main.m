@@ -42,11 +42,16 @@ Fs = tf(Frl);
 step(Fs*feedback(Cs*Gs,1));
 hold on
 
-Cz = c2d(Cs,T);
-Fz = c2d(Fs,T);
-Gz = c2d(Gs,T);
+Cz = c2d(Cs,T,'tustin');
+Fz = c2d(Fs,T,'tustin');
+Gz = c2d(Gs,T,'tustin');
+% step(Fdisc*feedback(Cdisc*Gz,1));
 
-step(Fdisc*feedback(Cdisc*Gz,1));
+% Cz = c2d(Cs,T);
+% Fz = c2d(Fs,T);
+% Gz = c2d(Gs,T);
+% 
+step(Fz*feedback(Cz*Gz,1));
 
 hold off
 %% Plotagem
