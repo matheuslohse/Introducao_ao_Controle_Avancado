@@ -6,6 +6,10 @@ addpath('data');
 
 %% Configuração da Simulação
 
+% Atraso de transporte
+tau = 5;
+s = tf([1 0],[1]);
+
 % Tempo total de simulação
 ttotal = 120; % s
 
@@ -32,9 +36,22 @@ dist = 1; %( 0 -> sem distúrbio ,
 % r -> sinal de referência do controle
 % d -> sinal de perturbação aplicado na planta
 
+Hs1 = tf([-tau 2],[tau 2]); 
+Hs2 = tf([tau^2 -6*tau 12],[tau^2 6*tau 12]);
+Hs3 = tf([-tau^3 12*(tau^2) -60*tau 120],[tau^3 12*(tau^2) 60*tau 120]);
+
+Gs = tf([2.475],[1 9.472 3.465 1.256]);
+hold on
+step(Gs*exp(-5*s))
+step(Gs*Hs1)
+step(Gs*Hs2)
+step(Gs*Hs3)
+
+
+
 %% Animação
 
-runanim( u , y , T );
+%runanim( u , y , T );
 
 %% Plotagem
 
