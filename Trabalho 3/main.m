@@ -6,7 +6,6 @@ addpath('data');
 load('variaveis_controlador.mat')
 global Fz Gz Cz
 
-
 %% Configuração da Simulação
 
 % Atraso de transporte
@@ -30,16 +29,6 @@ dist = 1; %( 0 -> sem distúrbio ,
    
 %% Ensaio do Sistema
 
-[t,y,yn,u,r,d] = runsim( ttotal , T , 1e-4 );
-
-% t -> vetor de tempo
-% yc -> sinal de saída do sistema (limpo)
-% yn -> sinal de saída do sistema (ruidoso)
-% u -> sinal de controle do sistema
-% r -> sinal de referência do controle
-% d -> sinal de perturbação aplicado na planta
-
-<<<<<<< Updated upstream
 Hs1 = tf([-tau 2],[tau 2]); 
 Hs2 = tf([tau^2 -6*tau 12],[tau^2 6*tau 12]);
 Hs3 = tf([-tau^3 12*(tau^2) -60*tau 120],[tau^3 12*(tau^2) 60*tau 120]);
@@ -51,22 +40,22 @@ step(Gs*Hs1)
 step(Gs*Hs2)
 step(Gs*Hs3)
 
-=======
-Gs = tf([2.475],[1 9.472 3.465 1.256]);
-
 Fz = c2d(Fs,T,'tustin');
 Gz = c2d(Gs,T,'tustin');
 Cz = c2d(Cs,T,'tustin');
->>>>>>> Stashed changes
 
+[t,y,yn,u,r,d] = runsim( ttotal , T , 1e-4 );
 
+% t -> vetor de tempo
+% yc -> sinal de saída do sistema (limpo)
+% yn -> sinal de saída do sistema (ruidoso)
+% u -> sinal de controle do sistema
+% r -> sinal de referência do controle
+% d -> sinal de perturbação aplicado na planta
 %% Animação
 
-<<<<<<< Updated upstream
-%runanim( u , y , T );
-=======
 % runanim( u , y , T );
->>>>>>> Stashed changes
+
 
 %% Plotagem
 
