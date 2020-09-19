@@ -4,8 +4,8 @@ clear all
 
 addpath('data');
 load('variaveis_controlador.mat')
+load('controleatraso.mat')
 global Fz Gz Cz
-
 
 %% Configuração da Simulação
 
@@ -30,45 +30,14 @@ dist = 1; %( 0 -> sem distúrbio ,
    
 %% Ensaio do Sistema
 
-<<<<<<< HEAD:Trabalho 3/main.asv
 %Código Lohse
-=======
-[t,y,yn,u,r,d] = runsim( ttotal , T , 1e-4 );
-
-% t -> vetor de tempo
-% yc -> sinal de saída do sistema (limpo)
-% yn -> sinal de saída do sistema (ruidoso)
-% u -> sinal de controle do sistema
-% r -> sinal de referência do controle
-% d -> sinal de perturbação aplicado na planta
-
-<<<<<<< Updated upstream
-Hs1 = tf([-tau 2],[tau 2]); 
-Hs2 = tf([tau^2 -6*tau 12],[tau^2 6*tau 12]);
-Hs3 = tf([-tau^3 12*(tau^2) -60*tau 120],[tau^3 12*(tau^2) 60*tau 120]);
-
-Gs = tf([2.475],[1 9.472 3.465 1.256]);
-hold on
-step(Gs*exp(-5*s))
-step(Gs*Hs1)
-step(Gs*Hs2)
-step(Gs*Hs3)
-
-=======
-Gs = tf([2.475],[1 9.472 3.465 1.256]);
-
->>>>>>> parent of 9759216... correÃ§Ãµes:Trabalho 3/main.m
 Fz = c2d(Fs,T,'tustin');
 Cz = c2d(Cs,T,'tustin');
-<<<<<<< HEAD:Trabalho 3/main.asv
 Gs = tf([2.475],[1 9.472 3.465 1.256]);
 Gz = c2d(Gs,T,'tustin');
-=======
->>>>>>> Stashed changes
->>>>>>> parent of 9759216... correÃ§Ãµes:Trabalho 3/main.m
 
+[t,y,yn,u,r,d] = runsim( ttotal , T , 1e-4 );
 
-<<<<<<< HEAD:Trabalho 3/main.asv
 % t -> vetor de tempo
 % yc -> sinal de saída do sistema (limpo)
 % yn -> sinal de saída do sistema (ruidoso)
@@ -81,25 +50,26 @@ Hs1 = tf([-tau 2],[tau 2]);
 Hs2 = tf([tau^2 -6*tau 12],[tau^2 6*tau 12]);
 Hs3 = tf([-tau^3 12*(tau^2) -60*tau 120],[tau^3 12*(tau^2) 60*tau 120]);
 
+Hz3 = c2d(Hs3,T,'Tustin');
+Gza = Hz3*Gz;
+
 hold on
 step(Gs*exp(-5*s))
 step(Gs*Hs1)
 step(Gs*Hs2)
 step(Gs*Hs3)
 
+[t,y,yn,u,r,d] = runsim( ttotal , T , 1e-4 );
 
-=======
->>>>>>> parent of 9759216... correÃ§Ãµes:Trabalho 3/main.m
+% t -> vetor de tempo
+% yc -> sinal de saída do sistema (limpo)
+% yn -> sinal de saída do sistema (ruidoso)
+% u -> sinal de controle do sistema
+% r -> sinal de referência do controle
+% d -> sinal de perturbação aplicado na planta
 %% Animação
 
-<<<<<<< Updated upstream
-%runanim( u , y , T );
-=======
-% runanim( u , y , T );
-<<<<<<< HEAD:Trabalho 3/main.asv
-=======
->>>>>>> Stashed changes
->>>>>>> parent of 9759216... correÃ§Ãµes:Trabalho 3/main.m
+runanim( u , y , T );
 
 %% Plotagem
 
