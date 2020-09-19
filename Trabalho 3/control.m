@@ -50,29 +50,29 @@ function u = control( t , y , r , T )
 %     ud = Kd*(e-ed)/T;
 %     
 %     u  = up+ui+ud;
-
+global Fz Gz Cz
 persistent ui rf e ri
         if t == 0
             ui(1:3) = 0;
-            rf(1:3) = 0;
+            rf(1:2) = 0;
             e(1:3) = 0;
-            ri(1:3) = r;
+            ri(1:2) = r;
         end
     
     %Vetores da Fz e Cz
     numF = Fz.num{1};
     denF = Fz.den{1};
-    numC = cz.num{1};
-    denC = Cs.den{1};
+    numC = Cz.num{1};
+    denC = Cz.den{1};
     
-    rf(1) = numF(1)*rf(2) - 0.9418*rf(3) + 0.0007232*ri(2) + 0.000709*ri(3);
+    ri(1) = r;
+    
+    rf(1) = - denF(1)*rf(2) + numF(1)*ri(1) + numF(2)*ri(2);
     e(1) = rf(1) - y;
-    ui(1) = 1.779*ui(2) - 0.7788*ui(3) + 43.19*e(1) - 84.06*e(2) + 40.93*e(3);
+    ui(1) = - denC(2)*ui(2) - denC(3)*ui(3) + numC(1)*e(1) + numC(2)*e(2) + numC(3)*e(3);
 
     ui(3) = ui(2);
-    rf(3) = rf(2);
     e(3) = e(2);
-    ri(3) = ri(2);
 
     ui(2) = ui(1);
     rf(2) = rf(1);
