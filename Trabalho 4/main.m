@@ -3,8 +3,13 @@ close all
 clear all
 
 addpath('data');
+load('variaveis.mat','Fz','Cz');
 
 %% Configuração da Simulação
+
+% Atraso de transporte
+tau = 5;
+s = tf([1 0],[1]);
 
 % Tempo total de simulação
 ttotal = 120; % s
@@ -32,9 +37,26 @@ dist = 1; %( 0 -> sem distúrbio ,
 % r -> sinal de referência do controle
 % d -> sinal de perturbação aplicado na planta
 
+Gs = tf([2.475],[1 9.472 3.465 1.256]);
+Hs = exp(-(5*s));
+Ps = Gs*(1 - Hs);
+
+Gz = c2d(Gs,T,'tustin');
+Hz = c2d(Hs,T,'tustin');
+Pz = Gz*(1- Hz); % Confirmar se da no mesmo que utilizar Pz = c2d(Ps, T,'tustin');
+Pz1 = c2d(Ps, T,'tustin');
+
+hold on
+step(Fz*feedback(Cz*Gz,1))
+step(Fz*feedback(feedback(Cz,Pz)*Gz*Hz,1))
+step(Fz*feedback(Cz*Gz,1)*Hz)
+
+%acho que ta errado.
+
+
 %% Animação
 
-runanim( u , y , T );
+%runanim( u , y , T );
 
 %% Plotagem
 
