@@ -41,17 +41,12 @@ Gs = tf([2.475],[1 9.472 3.465 1.256]);
 Hs = exp(-(5*s));
 Ps = Gs*(1 - Hs);
 
-Gz = c2d(Gs,T,'tustin');
-Hz = c2d(Hs,T,'tustin');
-Pz = Gz*(1- Hz); % Confirmar se da no mesmo que utilizar Pz = c2d(Ps, T,'tustin');
-Pz1 = c2d(Ps, T,'tustin');
+Gz = c2d(Gs,T);
+Hz = c2d(Hs,T);
+Pz = c2d(Ps,T);
 
-hold on
-step(Fz*feedback(Cz*Gz,1))
+% hold on
 step(Fz*feedback(feedback(Cz,Pz)*Gz*Hz,1))
-step(Fz*feedback(Cz*Gz,1)*Hz)
-
-%acho que ta errado.
 
 
 %% Animação
