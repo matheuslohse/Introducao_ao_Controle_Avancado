@@ -13,14 +13,13 @@ function u = control( t , y , r , T )
     u = 1;
 % Programe sua lógica de controle aqui ------------------------------------
     
-    global Fz Cz Pz Hz
-    persistent ui rf e ri
-    N = 500;
+global Fz Cz Pz Hz
+persistent ui rf e ri
         if t == 0
-            ui(1:N) = 0;
-            rf(1:N) = 0;
-            e(1:N) = 0;
-            ri(1:N) = r;
+            ui(1:3) = 0;
+            rf(1:3) = 0;
+            e(1:3) = 0;
+            ri(1:3) = r;
         end
     
     %Vetores da Fz e Cz
@@ -34,22 +33,21 @@ function u = control( t , y , r , T )
     denH = Hz.den{1};
     
     ri(1) = r;
-    for i = 1:N
-
-    %Antigo
+%     
+%     %Antigo
 %     rf(1) = - denF(1)*rf(2) + numF(1)*ri(1) + numF(2)*ri(2);
 %     e(1) = ri(1) - y;
 %     ui(1) = ui(2) + 0.003*e(1);
-     
-    %Novo
-     
-    rf(1) = - denF(2)*rf(2) + denF(3)*rf(3) + numF(3)*ri(3);
+%     
+%     %Novo
+%      
+    rf(1) = - denF(2)*rf(2) + denF(3)*rf(3) + numF(2)*ri(1) + numF(2)*ri(2);
     e(1) = ri(1) - y;
     ui(1) =  denC(1)/numC(1)*e(1) - denC(2)/numC(1)*e(2) + denC(3)/numC(1)*e(3) + numC(2)/numC(1)*u(2) - numC(3)/numC(1)*u(3);
       
 %     %ui(1) = - denC(2)*ui(2) - denC(3)*ui(3) + numC(1)*e(1) + numC(2)*e(2) + numC(3)*e(3);
 % 
-    
+    for i = 1:N
         ui(N) = ui(N-1);
         rf(N) = rf(N-1);
         e(N) = e(N-1);

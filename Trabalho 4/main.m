@@ -5,6 +5,8 @@ clear all
 addpath('data');
 load('variaveis.mat','Fz','Cz');
 
+global Fz Cz Pz Hz Gz
+
 %% Configuração da Simulação
 
 % Atraso de transporte
@@ -28,6 +30,19 @@ dist = 1; %( 0 -> sem distúrbio ,
    
 %% Ensaio do Sistema
 
+%Trouxe pra cá
+Cz = tf(Cz);
+Fz = tf(Fz);
+
+Gs = tf([2.475],[1 9.472 3.465 1.256]);
+Hs = exp(-(5*s));
+Ps = Gs*(1 - Hs);
+
+Gz = c2d(Gs,T);
+Hz = c2d(Hs,T);
+Pz = c2d(Ps,T);
+
+
 [t,y,yn,u,r,d] = runsim( ttotal , T , 1e-4 );
 
 % t -> vetor de tempo
@@ -37,13 +52,14 @@ dist = 1; %( 0 -> sem distúrbio ,
 % r -> sinal de referência do controle
 % d -> sinal de perturbação aplicado na planta
 
-Gs = tf([2.475],[1 9.472 3.465 1.256]);
-Hs = exp(-(5*s));
-Ps = Gs*(1 - Hs);
-
-Gz = c2d(Gs,T);
-Hz = c2d(Hs,T);
-Pz = c2d(Ps,T);
+%Levei pra cima
+% Gs = tf([2.475],[1 9.472 3.465 1.256]);
+% Hs = exp(-(5*s));
+% Ps = Gs*(1 - Hs);
+% 
+% Gz = c2d(Gs,T);
+% Hz = c2d(Hs,T);
+% Pz = c2d(Ps,T);
 
 % Fz = tf([0.001],[1 -1.98 0.981],T);
 % Cz = 0.42*tf([1 -1.98 0.981],[1 -1.93 0.93],T);

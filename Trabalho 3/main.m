@@ -58,6 +58,12 @@ step(Gs*exp(-5*s))
 step(Gs*Hs1)
 step(Gs*Hs2)
 step(Gs*Hs3)
+grid on
+xlabel('t [s]')
+ylabel('y(t)')
+title('Comparação dos Sistemas')
+legend('G(s)*e^-^5^s','Aproximação de Padè n = 1','Aproximação de Padè n = 2','Aproximação de Padè n = 3')
+
 
 [t,y,yn,u,r,d] = runsim( ttotal , T , 1e-4 );
 
