@@ -33,30 +33,30 @@ function u = control( t , y , r , T )
     numH = Hz.num{1};
     denH = Hz.den{1};
     
-    ri(1) = r;
     for i = 1:N
-
-    %Antigo
-%     rf(1) = - denF(1)*rf(2) + numF(1)*ri(1) + numF(2)*ri(2);
-%     e(1) = ri(1) - y;
-%     ui(1) = ui(2) + 0.003*e(1);
-     
-    %Novo
-     
-    rf(1) = - denF(2)*rf(2) + denF(3)*rf(3) + numF(3)*ri(3);
-    e(1) = ri(1) - y;
-    ui(1) =  denC(1)/numC(1)*e(1) - denC(2)/numC(1)*e(2) + denC(3)/numC(1)*e(3) + numC(2)/numC(1)*u(2) - numC(3)/numC(1)*u(3);
-      
-%     %ui(1) = - denC(2)*ui(2) - denC(3)*ui(3) + numC(1)*e(1) + numC(2)*e(2) + numC(3)*e(3);
-% 
+    ri(1) = r;
     
-        ui(N) = ui(N-1);
-        rf(N) = rf(N-1);
-        e(N) = e(N-1);
-        ri(N) = ri(N-1);
+        %Antigo
+    %     rf(1) = - denF(1)*rf(2) + numF(1)*ri(1) + numF(2)*ri(2);
+    %     e(1) = ri(1) - y;
+    %     ui(1) = ui(2) + 0.003*e(1);
+
+        %Novo
+
+        rf(N-1) = - denF(N-2)*rf(N-2) + denF(N-3)*rf(N-3) + numF(N-3)*ri(N-3);
+        e(N-1) = ri(N-1) - y;
+        ui(N-1) =  denC(N-1)/numC(N-1)*e(N-1) - denC(N-2)/numC(N-1)*e(N-2) + denC(N-3)/numC(N-1)*e(N-3) + numC(N-2)/numC(N-1)*u(N-2) - numC(N-3)/numC(N-1)*u(N-3);
+
+    %     %ui(1) = - denC(2)*ui(2) - denC(3)*ui(3) + numC(1)*e(1) + numC(2)*e(2) + numC(3)*e(3);
+
+        ui(i) = ui(i-1);
+        rf(i) = rf(i-1);
+        e(i) = e(i-1);
+        ri(i) = ri(i-1);
+
     end
     
-    u = ui(1);
+    u = ui(N-1);
     
 end
 
