@@ -15,7 +15,7 @@ function u = control( t , y , r , T )
     
     global Fz Cz Pz Hz
     persistent ui rf e ri
-    N = 500;
+    N = 110;
         if t == 0
             ui(1:N) = 0;
             rf(1:N) = 0;
@@ -27,36 +27,31 @@ function u = control( t , y , r , T )
     numF = Fz.num{1};
     denF = Fz.den{1};
     
-    numC = Cz.num{1};
-    denC = Cz.den{1};
-	   
-    numH = Hz.num{1};
-    denH = Hz.den{1};
+    CP = (Cz*Pz)/(1+Cz*Pz);
+    CPz = tf(CP);
+    numCP = CPz.num{1};
+    denCP = CPz.den{1};
     
-    for i = 1:N
     ri(1) = r;
+
+    rf(1) = - denF(2)*rf(2) - denF(3)*rf(3) + numF(3)*rf(3);
+    e(1) = ri(1) - y;
     
-        %Antigo
-    %     rf(1) = - denF(1)*rf(2) + numF(1)*ri(1) + numF(2)*ri(2);
-    %     e(1) = ri(1) - y;
-    %     ui(1) = ui(2) + 0.003*e(1);
-
-        %Novo
-
-        rf(N-1) = - denF(N-2)*rf(N-2) + denF(N-3)*rf(N-3) + numF(N-3)*ri(N-3);
-        e(N-1) = ri(N-1) - y;
-        ui(N-1) =  denC(N-1)/numC(N-1)*e(N-1) - denC(N-2)/numC(N-1)*e(N-2) + denC(N-3)/numC(N-1)*e(N-3) + numC(N-2)/numC(N-1)*u(N-2) - numC(N-3)/numC(N-1)*u(N-3);
-
-    %     %ui(1) = - denC(2)*ui(2) - denC(3)*ui(3) + numC(1)*e(1) + numC(2)*e(2) + numC(3)*e(3);
-
+    soma_e = numCP(1)*e(1);
+    soma_ui = denCP(1)*ui(1);
+    
+    for i = 2: N
+       soma_e = numCP(i)*e(i) + soma_e;
+       soma_ui = denCP(i)*ui(i) + soma_ui;
+       
+        e(i) = e(i-1);
         ui(i) = ui(i-1);
         rf(i) = rf(i-1);
-        e(i) = e(i-1);
         ri(i) = ri(i-1);
-
     end
     
-    u = ui(N-1);
+    ui(1) =  soma_e - soma_ui;
+    u = ui(1);
     
 end
 

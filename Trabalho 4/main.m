@@ -71,7 +71,7 @@ legend('Sistema 1','Sistema 2');
 
 %% Animação
 
-%runanim( u , y , T );
+runanim( u , y , T );
 
 %% Plotagem
 
