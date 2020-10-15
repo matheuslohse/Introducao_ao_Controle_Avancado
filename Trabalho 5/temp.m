@@ -2,7 +2,7 @@ clc
 clear all
 close all
 
-%% Dados do sistema
+syms x1 x2 x3 x4 u
 
 g   = 9.81;   % aceleração da gravidade [m/s^2]
 l   = 2;      % comprimento do pêndulo [m]
@@ -15,13 +15,11 @@ T = 0.001;    % período de amostragem do controle [s]
 
 %% Utilize este espaço para projetar o seu controle
 
-M = [m1+m2 m2*l*cos(x3);m2*l*cos(x3) m2*l]
-C = [b1 -m2*l*sin(x3)*x4;0 b2]
-G = [0;m2*g*l*sin(x3)]
-F = [u; 0]
+M = [m1+m2 m2*l*cos(x3);m2*l*cos(x3) m2*l];
+C = [b1 -m2*l*sin(x3)*x4;0 b2];
+G = [0;m2*g*l*sin(x3)];
+F = [u; 0];
 
-resp = inv(M)*F - inv(M)*C*[x2;x4] - inv(M)*G
+resp = inv(M)*F - inv(M)*C*[x2;x4] - inv(M)*G;
 x2_dot = resp(1);
 x4_dot = resp(2);
-
-
