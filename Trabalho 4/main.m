@@ -41,6 +41,8 @@ Ps = Gs*(1 - Hs);
 Gz = c2d(Gs,T);
 Hz = c2d(Hs,T);
 Pz = c2d(Ps,T);
+Pz_z = Gz * (1-Hz);
+Pz_tf = tf(Pz);
 
 
 [t,y,yn,u,r,d] = runsim( ttotal , T , 1e-4 );
@@ -67,11 +69,13 @@ Pz = c2d(Ps,T);
 hold on
 step(Fz*feedback(feedback(Cz,Pz)*Gz*Hz,1))
 step(Fz*feedback(Cz*Gz,1)*Hz)
-legend('Sistema 1','Sistema 2');
+step(Fz*feedback(feedback(Cz,Pz_z)*Gz*Hz,1))
+step(Fz*feedback(feedback(Cz,Pz_tf)*Gz*Hz,1))
+legend('Sistema com Pz','Sistema sem Pz','Sistema com Pz_z','Sistema com Pz_tf');
 
 %% Animação
 
-runanim( u , y , T );
+%runanim( u , y , T );
 
 %% Plotagem
 
