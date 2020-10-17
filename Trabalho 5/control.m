@@ -18,8 +18,22 @@ function [ u ] = control( t , y , r , x )
 % u -> força de controle a ser aplicada no carrinho [N]
 
 %% Utilize este espaço para programar sua lei de controle
+global K
 
-u = 0;
+x_barra = [0;0;pi;0];
+%u_barra = 0;
+
+dif_x = x - x_barra;
+%dif_u = u - u_barra;
+u = -K*dif_x; %seria dif_u no entanto u_barra = 0
+
+%Malha Aberta:
+%Sistema_Linearizado = 0 + A*dif_x + B*dif_u;
+
+%Malha Fechada:
+%Sistema_Linearizado = 0 + A*dif_x + B*(-K*dif_x);
+%Sistema_Linearizado = (A-B*K)*dif_x;
+
 
 end
 
