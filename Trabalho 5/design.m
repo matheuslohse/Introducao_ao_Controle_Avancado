@@ -106,7 +106,7 @@ dif_u = u - u_barra;
 
 %Autovalores c/ parte real neg., s/parte imag.
 %Quanto mais negativo mais rápida a resposta
-ta = 4;
+ta = 5;
 %av = autovalores
 av = [0;3.550429689801335;-4.179623179432992; -0.495806510368343];
 
@@ -121,5 +121,5 @@ B = [   0
  5/4]; 
 
 %Polos em torno da região -(8/ta)
-p = -(4/ta)*[1 1.1 1.2 1.3];
+p = -(4/ta)*[6 3 1 0.85];
 K = place(A,B,p); 
