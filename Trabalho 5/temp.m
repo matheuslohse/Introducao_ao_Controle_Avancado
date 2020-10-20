@@ -51,7 +51,7 @@ for i = 1:size(resp_eq)
     if resp_eq(i) < 10^-20
         resp_eq(i) = 0;
     end
-    if resp_eq(i) < -1*10^-20   
+    if resp_eq(i) < -1*10^-20
         resp_eq(i) = 0;
     end
 end
@@ -116,5 +116,5 @@ B = [   0
  5/4]; 
 
 %Polos em torno da região -(8/ta)
-p = -(8/ta)*[6 3 1.015 1];
+p = -(8/ta)*[1 1.001 1.002 1.003];
 K = place(A,B,p); 
