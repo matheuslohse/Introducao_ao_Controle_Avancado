@@ -20,7 +20,7 @@ function [ u ] = control( t , y , r , x )
 %% Utilize este espaço para programar sua lei de controle
 global K
 
-x_barra = [0;0;pi;0];
+x_barra = [r;0;pi;0];
 %u_barra = 0;
 
 dif_x = x - x_barra;

@@ -3,7 +3,6 @@ close all
 clear all
 
 addpath('data');
-
 run design
 
 %% Configuração da Simulação
