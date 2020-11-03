@@ -18,15 +18,33 @@ function [ u ] = control( t , y , r , x )
 % u -> força de controle a ser aplicada no carrinho [N]
 
 %% Utilize este espaço para programar sua lei de controle
-global K
+global K L
+
+g   = 9.81;   % aceleração da gravidade [m/s^2]
+l   = 2;      % comprimento do pêndulo [m]
+m  = 0.2;     % massa do pêndulo [kg]
+rho = 1;      % Rho é uma constante que demonstra que a força influencia diretamente na aceleração do carrinho.
+u_max = 6;   % Força maxima em [N]
+kp = 1;
 
 x_barra = [r;0;pi;0];
 %u_barra = 0;
 
 dif_x = x - x_barra;
 %dif_u = u - u_barra;
-u = -K*dif_x; %seria dif_u no entanto u_barra = 0
 
+if cos(x(3)) <= -0.94    
+      u = -K*dif_x; %seria dif_u no entanto u_barra = 0
+else 
+      E = (1/2)*m*(l^2)*x(4)^2 + m*g*l*(1 - cos(x(3)));
+      
+      Ed = 2*m*g*l;
+      
+      dE = E - Ed;
+      
+      u =  u_max * sign(dE * x(4) * rho * cos(x(3))) - kp*x(1)
+end
+    
 %Malha Aberta:
 %Sistema_Linearizado = 0 + A*dif_x + B*dif_u;
 

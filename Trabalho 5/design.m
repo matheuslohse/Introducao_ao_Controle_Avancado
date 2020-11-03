@@ -16,7 +16,7 @@ T = 0.001;    % período de amostragem do controle [s]
 %% Utilize este espaço para projetar o seu controle
 
 syms x1 x2 x3 x4 u
-global K
+global K L
 
 %% Questão 2
 M = [m1+m2 m2*l*cos(x3);m2*l*cos(x3) m2*l^2];
