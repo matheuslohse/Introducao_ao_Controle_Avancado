@@ -24,8 +24,9 @@ g   = 9.81;   % aceleração da gravidade [m/s^2]
 l   = 2;      % comprimento do pêndulo [m]
 m  = 0.2;     % massa do pêndulo [kg]
 rho = 1;      % Rho é uma constante que demonstra que a força influencia diretamente na aceleração do carrinho.
-u_max = 6;   % Força maxima em [N]
+u_max = 9;   % Força maxima em [N]
 kp = 1;
+ks = 10;
 
 if x(3) >= 0 
     x_barra = [r;0;pi;0];
@@ -49,7 +50,7 @@ else
       
       dE = E - Ed;
       
-      u =  u_max * sign(dE * x(4) * rho * cos(x(3))) - kp*x(1)
+      u =  u_max * sat(dE * ks * x(4) * rho * cos(x(3))) - kp*x(1)
 end
     
 %Malha Aberta:
