@@ -27,8 +27,15 @@ rho = 1;      % Rho é uma constante que demonstra que a força influencia diretam
 u_max = 6;   % Força maxima em [N]
 kp = 1;
 
-x_barra = [r;0;pi;0];
-%u_barra = 0;
+if x(3) >= 0 
+    x_barra = [r;0;pi;0];
+    %u_barra = 0;
+end
+
+if x(3) < 0 
+    x_barra = [r;0;-pi;0];
+    %u_barra = 0;
+end
 
 dif_x = x - x_barra;
 %dif_u = u - u_barra;

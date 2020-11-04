@@ -96,10 +96,10 @@ B = subs(diff(x_dot,u),{x1 x2 x3 x4 u},{x_barra(1) x_barra(2) x_barra(3) x_barra
 
 %% Questão 5
 
-for i = 1:4;
-    dif_x(i) = x(i) - x_barra(i);
-end
-dif_u = u - u_barra;
+% for i = 1:4;
+%     dif_x(i) = x(i) - x_barra(i);
+% end
+% dif_u = u - u_barra;
 
 %Malha Aberta:
 %Sistema_Linearizado = 0 + A*dif_x + B*dif_u;
@@ -110,21 +110,11 @@ dif_u = u - u_barra;
 
 %Autovalores c/ parte real neg., s/parte imag.
 %Quanto mais negativo mais rápida a resposta
+
 ta = 5;
+
 %av = autovalores
 av = [0;3.550429689801335;-4.179623179432992; -0.495806510368343];
-
-% A = [ 0,    1,        0,    0
-%  0, -3/4,  981/200, -1/8    
-%  0,    0,        0,    1
-%  0, -3/4, 2943/200, -3/8];
-% 
-% %Refazer as matrizes A e B, somente a linha A(1) e A(3) estão certas
-% 
-% B = [   0
-%  5/4
-%    0
-%  5/4]; 
 
 A = double (A);
 B = double (B);
