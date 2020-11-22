@@ -31,6 +31,8 @@ P(k,k) = P(k,k-1) - L(k) * C(k) * (x_chapeu(k,k-1)) * P(k,k-1);
 % Covariâncias das estimativas atualizadas: P(k,k)
 
 %% Tarefas
-y(k) = [z(k); tetha(k)] + v(k);
+y(k) = [z(k); tetha(k)] + v(k); %zk e ?k representam respectivamente a posição real do carrinho e o ângulo real da haste em cada amostra k de controle
 R = [10^-4 0; 0 10^-4];
-x_dot = 
+x_dot = fc(x,u);
+x
+
