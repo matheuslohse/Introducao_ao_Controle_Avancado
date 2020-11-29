@@ -21,7 +21,7 @@ function [ u ] = control( t , y , r , x )
 global K L
 syms x1 x2 x3 x4 u
 global C Q R
-global g l m1 m2 b1 b2 sat T 
+global g l m1 m2 b1 b2 sat T
 persistent x_chapeu P ua
 
 g   = 9.81;   % aceleração da gravidade [m/s^2]
@@ -31,6 +31,15 @@ u_max = 9;   % Força maxima em [N]
 kp = 1;
 ks = 10;
 
+if x(3) >= 0 
+    x_barra = [r;0;pi;0];
+    %u_barra = 0;
+end
+
+if x(3) < 0 
+    x_barra = [r;0;-pi;0];
+    %u_barra = 0;
+end
 
 %% Parte do Provenienete do Trabalho 7
 u_barra = 0;
@@ -48,14 +57,21 @@ x4_dot = resp(2);
 %x_dot = [x2;x2_dot;x4;x4_dot];
 fc = [x2;x2_dot;x4;x4_dot];
 
+
+%% Declarando Variáveis
+%x_dot = fc(x,u); -> fc = função contínua do sistema
+%fk(x(k-1),u(k-1)) = T * fc(x(k-1),u(k-1)) + x(k-1);
+
+fk = T * fc + x_chapeu;
+
 %% EXTENDEND KALMAN FILTER
 if t == 0 
     x_chapeu = [y(1) 0 y(2) 0];
-    P = [R(1) 0; 0 1e-8];
+    P = [R 0; 0 1e-8];
     ua = 0;
 else
     %% Etapa de Predição
-    fk = T * fc + x_chapeu;
+   
     %x_chapeu  -> x_chapeu k-1|k-1
     x_chapeu = fk;
     %x_chapeu  -> x_chapeu k|k-1
@@ -83,21 +99,10 @@ end
 
 
 %% Contol Escobal
-
-if x_chapeu(3) >= 0 
-    x_barra = [r;0;pi;0];
-    %u_barra = 0;
-end
-
-if x_chapeu(3) < 0 
-    x_barra = [r;0;-pi;0];
-    %u_barra = 0;
-end
-
-dif_x = x_chapeu - x_barra;
+dif_x = x - x_barra;
 %dif_u = u - u_barra;
 
-if cos(x_chapeu(3)) <= -0.94    
+if cos(x(3)) <= -0.94    
       u = -K*dif_x; %seria dif_u no entanto u_barra = 0
 else 
       E = (1/2)*m2*(l^2)*x_chapeu(4)^2 + m2*g*l*(1 - cos(x_chapeu(3)));
@@ -106,7 +111,7 @@ else
       
       dE = E - Ed;
       
-      u =  u_max * sat(dE * ks * x_chapeu(4) * rho * cos(x_chapeu(3))) - kp*x_chapeu(1)
+      u =  u_max * sat(dE * ks * x(4) * rho * cos(x_chapeu(3))) - kp*x_chapeu(1)
 end
     
 

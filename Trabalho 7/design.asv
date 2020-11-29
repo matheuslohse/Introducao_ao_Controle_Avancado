@@ -4,7 +4,6 @@ close all
 
 syms x1 x2 x3 x4 u
 global K L g l m1 m2 b1 b2 sat T
-global C Q R P alpha
 
 %% Dados do sistema
 
@@ -40,7 +39,7 @@ x_dot = [x2;x2_dot;x4;x4_dot];
 
 %0 = f(x_barra, u_barra)
 x_barra = [0;0;pi;0];
-u_barra = 0;
+u_barra =0;
 
 x1_eq = x_barra(1);
 x2_eq = x_barra(2);
@@ -120,10 +119,3 @@ B = double (B);
 %Polos em torno da região -(8/ta)
 p = -(4/ta)*[3.1 3 2.9 2.8];
 K = place(A,B,p); 
-
-%% Parte Proveniente do Trabalho 7
-alpha = 1e-6;%? é um escalar positivo pequeno, preferencialmente menor que 1
-I = eye(4);%I é uma matriz identidade 4 por 4.
-Q = alpha * I;
-R = [10^-4 0; 0 10^-4];
-
