@@ -9,7 +9,7 @@
 % Covariâncias atuais do sistema: Q(k),R(k)
 
 global A B C D Q R
-persistent x_chapeu P ua
+persistent x_chapeu P
 
 if t == 0 
     x_chapeu = [y(1) 0];
@@ -17,15 +17,12 @@ if t == 0
     %P = [* 0;0 **] -> **Convariância da Velocidade do Ângulo ->
     %Desconhecido em sistemas reais, aqui sabemos que vai começar parado
     P = [R 0; 0 1e-8];
-    ua = 0;
 else
     %% Etapa de Predição
-    %1: x_chapeuk|k-1 = fk(xk?1|k?1, uk?1)
+    %1: x_chapeuk|k?1 = fk(xk?1|k?1, uk?1)
     %2: Pk|k?1 = Ak(xk?1|k?1, uk?1) Pk?1|k?1 Ak(xk?1|k?1, uk?1)T + Qk
     
-    %x_chapeu  -> x_chapeu k-1|k-1
-    x_chapeu = fk(x(k-1,k-1), u(k-1));
-    %x_chapeu  -> x_chapeu k|k-1
+    x_chapeu(k,k-1) = fk(x(k-1,k-1), u(k-1));
     P(k,k-1) = Ak(x(k-1,k-1), u(k-1)) * P(k-1,k-1) * Ak(x(k-1,k-1), u(k-1))^T + Q(k);
 
     %% Etapa de Correção
@@ -50,14 +47,13 @@ else
     R = [10^-4 0; 0 10^-4];
     x_dot = fc(x,u);
     x(k) = T * fc(x(k-1),u(k-1)) + x(k-1);
-    alpha = 1e-6;%? é um escalar positivo pequeno, preferencialmente menor que 1
+    alpha = 0.5;%? é um escalar positivo pequeno, preferencialmente menor que 1
     I = eye(4);%I é uma matriz identidade 4 por 4.
     Q = alpha * I;
 end
 
 x_chapeu = [];
 P = [];
-ua = u;
 
 
 

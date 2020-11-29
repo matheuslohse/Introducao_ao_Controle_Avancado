@@ -60,11 +60,5 @@ end
 %Sistema_Linearizado = 0 + A*dif_x + B*(-K*dif_x);
 %Sistema_Linearizado = (A-B*K)*dif_x;
 
-%% Filtro de Kalmann
-
-% x_chapeu = fk(x(k-1,k-1), u(k-1));
-% P(k,k-1) = Ak(x(k-1,k-1), u(k-1)) * P(k-1,k-1) * Ak(x(k-1,k-1), u(k-1))^T + Q(k);
-
-
 end
 
