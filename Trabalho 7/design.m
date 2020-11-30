@@ -3,8 +3,8 @@ clear all
 close all
 
 syms x1 x2 x3 x4 u
-global K L g l m1 m2 b1 b2 sat T
-global C Q R P alpha
+global K g l m1 m2 b1 b2 sat T
+global Q R  
 
 %% Dados do sistema
 
@@ -125,5 +125,5 @@ K = place(A,B,p);
 alpha = 1e-6;%? é um escalar positivo pequeno, preferencialmente menor que 1
 I = eye(4);%I é uma matriz identidade 4 por 4.
 Q = alpha * I;
-R = [10^-4 0; 0 10^-4];
+R = [10^-4 0 0 0;0 0 0 0 ; 0 0  10^-4 0; 0 0 0 0 ];
 

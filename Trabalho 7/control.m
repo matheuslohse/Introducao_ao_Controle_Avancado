@@ -20,9 +20,9 @@ function [ u ] = control( t , y , r , x )
 %% Utilize este espaço para programar sua lei de controle
 global K L
 syms x1 x2 x3 x4 u
-global C Q R
+global Q R
 global g l m1 m2 b1 b2 sat T 
-persistent x_chapeu P ua
+persistent x_chapeu P ua x_barra
 
 g   = 9.81;   % aceleração da gravidade [m/s^2]
 l   = 2;      % comprimento do pêndulo [m]
@@ -48,11 +48,17 @@ x4_dot = resp(2);
 %x_dot = [x2;x2_dot;x4;x4_dot];
 fc = [x2;x2_dot;x4;x4_dot];
 
+x_design(1) = x1;
+x_design(2) = x2;
+x_design(3) = x3;
+x_design(4) = x4;
+
 %% EXTENDEND KALMAN FILTER
 if t == 0 
-    x_chapeu = [y(1) 0 y(2) 0];
-    P = [R(1) 0; 0 1e-8];
+    x_chapeu = [y(1); 0; y(2); 0]
+    P = [R(1) 0 0 0; 0 1e-8 0 0; 0 0 R(2) 0; 0 0 0 1e-8];
     ua = 0;
+    x_barra = [r;0;pi;0];
 else
     %% Etapa de Predição
     fk = T * fc + x_chapeu;
@@ -62,20 +68,23 @@ else
     
     %Calculo do A e B - Importada e  Adaptada da Design
     %Derivada + Substituição
+    
+    Ac = zeros(4);
+    
     for i = 1:4
-        Ac(1:4,i) = subs(diff(x_chapeu,x(i)),{x1 x2 x3 x4 u},{x_barra(1) x_barra(2) x_barra(3) x_barra(4) u_barra});
+        Ac(1:4,i) = subs(diff(x_chapeu,x_design(i)),{x1 x2 x3 x4 u},{x_barra(1) x_barra(2) x_barra(3) x_barra(4) u_barra});
     end
        
     A = eye(4) + T * Ac;
-    C = Cc;
+    C = [1 0 1 0];
     
     %Cálculo do P
     P = A * P * A' + Q;
 
     %% Etapa de Correção
    
-    S = C * P * C' + R;
-    L = (P*C')/S;
+    S = C * P/2 * C' + R;
+    L = (P*C')\S; % / OU \ ?
     x_chapeu = x_chapeu + L * (y - C*x_chapeu);       %y_chapeu(k,k-1));
     P = P - L*C*P;
 
@@ -106,7 +115,7 @@ else
       
       dE = E - Ed;
       
-      u =  u_max * sat(dE * ks * x_chapeu(4) * rho * cos(x_chapeu(3))) - kp*x_chapeu(1)
+      u =  u_max * sign(dE * ks * x_chapeu(4) * rho * cos(x_chapeu(3))) - kp*x_chapeu(1)
 end
     
 
