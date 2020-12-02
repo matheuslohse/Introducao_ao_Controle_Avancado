@@ -19,10 +19,9 @@ function [ u ] = control( t , y , r , x )
 
 %% Utilize este espaço para programar sua lei de controle
 global K L
-syms x1 x2 x3 x4 u
 global Q R
-global g l m1 m2 b1 b2 sat T 
-persistent x_chapeu P ua x_barra
+global g l m1 m2 b1 b2 T 
+persistent x_chapeu P ua 
 
 g   = 9.81;   % aceleração da gravidade [m/s^2]
 l   = 2;      % comprimento do pêndulo [m]
@@ -30,37 +29,30 @@ rho = 1;      % Rho é uma constante que demonstra que a força influencia diretam
 u_max = 9;   % Força maxima em [N]
 kp = 1;
 ks = 10;
-
-
-%% Parte do Provenienete do Trabalho 7
-u_barra = 0;
-
-M_d = [m1+m2 m2*l*cos(x3);m2*l*cos(x3) m2*l^2];
-C_d = [b1 -m2*l*sin(x3)*x4;0 b2];
-G_d = [0;m2*g*l*sin(x3)];
-F_d = [ua; 0];
-
-resp = M_d\(F_d - C_d*[x2;x4] - G_d);
-
-x2_dot = resp(1);
-x4_dot = resp(2);
-
-%x_dot = [x2;x2_dot;x4;x4_dot];
-fc = [x2;x2_dot;x4;x4_dot];
-
-x_design(1) = x1;
-x_design(2) = x2;
-x_design(3) = x3;
-x_design(4) = x4;
+ta = 5;
 
 %% EXTENDEND KALMAN FILTER
 if t == 0 
+    
     x_chapeu = [y(1); 0; y(2); 0]
     P = [R(1) 0 0 0; 0 1e-8 0 0; 0 0 R(2) 0; 0 0 0 1e-8];
     ua = 0;
     x_barra = [r;0;pi;0];
 else
     %% Etapa de Predição
+        % Parte do Provenienete da Design
+
+    M = [m1+m2 m2*l*cos(x_chapeu(3));m2*l*cos(x_chapeu(3)) m2*l^2];
+    C = [b1 -m2*l*sin(x_chapeu(3))*x_chapeu(4);0 b2];
+    G = [0;m2*g*l*sin(x_chapeu(3))];
+    F = [ua; 0];
+    resp = M\(F - C*[x_chapeu(2);x_chapeu(4)] - G);
+
+    x2_dot = resp(1);
+    x4_dot = resp(2);
+
+    fc = [x_chapeu(2);x2_dot;x_chapeu(4);x4_dot];
+    
     fk = T * fc + x_chapeu;
     %x_chapeu  -> x_chapeu k-1|k-1
     x_chapeu = fk;
@@ -69,22 +61,22 @@ else
     %Calculo do A e B - Importada e  Adaptada da Design
     %Derivada + Substituição
     
-    Ac = zeros(4);
+    Ac = [0,                                1,                                                                                                                                                                                                                                             0,                                                   0
+    0,                3/(cos(x_chapeu(3))^2 - 6),                               - (200*x_chapeu(4)^2*cos(x_chapeu(3)) + 981*cos(x_chapeu(3))^2 - 981*sin(x_chapeu(3))^2 - 25*x_chapeu(4)*sin(x_chapeu(3)))/(100*(cos(x_chapeu(3))^2 - 6)) - (cos(x_chapeu(3))*sin(x_chapeu(3))*(200*sin(x_chapeu(3))*x_chapeu(4)^2 + 25*cos(x_chapeu(3))*x_chapeu(4) + 500*ua - 300*x_chapeu(2) + 981*cos(x_chapeu(3))*sin(x_chapeu(3))))/(50*(cos(x_chapeu(3))^2 - 6)^2), -(25*cos(x_chapeu(3)) + 400*x_chapeu(4)*sin(x_chapeu(3)))/(100*(cos(x_chapeu(3))^2 - 6))
+    0,                                0,                                                                                                                                                                                                                                             0,                                                    1
+    0, -(3*cos(x_chapeu(3)))/(2*(cos(x_chapeu(3))^2 - 6)), (2943*cos(x_chapeu(3)) + 100*x_chapeu(4)^2*cos(x_chapeu(3))^2 - 100*x_chapeu(4)^2*sin(x_chapeu(3))^2 - 250*ua*sin(x_chapeu(3)) + 150*x_chapeu(2)*sin(x_chapeu(3)))/(100*(cos(x_chapeu(3))^2 - 6)) + (cos(x_chapeu(3))*sin(x_chapeu(3))*(100*cos(x_chapeu(3))*sin(x_chapeu(3))*x_chapeu(4)^2 + 75*x_chapeu(4) + 2943*sin(x_chapeu(3)) + 250*ua*cos(x_chapeu(3)) - 150*x_chapeu(2)*cos(x_chapeu(3))))/(50*(cos(x_chapeu(3))^2 - 6)^2),  (200*x_chapeu(4)*cos(x_chapeu(3))*sin(x_chapeu(3)) + 75)/(100*(cos(x_chapeu(3))^2 - 6))];
     
-    for i = 1:4
-        Ac(1:4,i) = subs(diff(x_chapeu,x_design(i)),{x1 x2 x3 x4 u},{x_barra(1) x_barra(2) x_barra(3) x_barra(4) u_barra});
-    end
        
     A = eye(4) + T * Ac;
-    C = [1 0 1 0];
-    
+    C = [1 0 0 0;0 0 1 0];
+
     %Cálculo do P
     P = A * P * A' + Q;
 
     %% Etapa de Correção
    
     S = C * P/2 * C' + R;
-    L = (P*C')\S; % / OU \ ?
+    L = (P*C')*S^-1; % / OU \ ?
     x_chapeu = x_chapeu + L * (y - C*x_chapeu);       %y_chapeu(k,k-1));
     P = P - L*C*P;
 
@@ -115,9 +107,16 @@ else
       
       dE = E - Ed;
       
-      u =  u_max * sign(dE * ks * x_chapeu(4) * rho * cos(x_chapeu(3))) - kp*x_chapeu(1)
+      u =  u_max * sign(dE * ks * x_chapeu(4) * rho * cos(x_chapeu(3))) - kp*x_chapeu(1);
 end
     
+if u > 10 
+    u = 10;
+end
+
+if u < -10
+    u = -10;
+end
 
 ua = u;
 

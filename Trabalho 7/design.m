@@ -88,9 +88,11 @@ x(4) = x4;
 %Derivada + Substituição
 for i = 1:4
     A(1:4,i) = subs(diff(x_dot,x(i)),{x1 x2 x3 x4 u},{x_barra(1) x_barra(2) x_barra(3) x_barra(4) u_barra});
+    A_trab_7(1:4,i) = diff(x_dot,x(i));
 end
 %diff(x_dot,u)
 B = subs(diff(x_dot,u),{x1 x2 x3 x4 u},{x_barra(1) x_barra(2) x_barra(3) x_barra(4) u_barra});
+B_trab_7 = diff(x_dot,u);
 
 %% Questão 5
 
@@ -122,8 +124,8 @@ p = -(4/ta)*[3.1 3 2.9 2.8];
 K = place(A,B,p); 
 
 %% Parte Proveniente do Trabalho 7
-alpha = 1e-6;%? é um escalar positivo pequeno, preferencialmente menor que 1
+alpha = 1e-3;%? é um escalar positivo pequeno, preferencialmente menor que 1
 I = eye(4);%I é uma matriz identidade 4 por 4.
 Q = alpha * I;
-R = [10^-4 0 0 0;0 0 0 0 ; 0 0  10^-4 0; 0 0 0 0 ];
+R = [10^-4 0 ; 0  10^-4];
 
