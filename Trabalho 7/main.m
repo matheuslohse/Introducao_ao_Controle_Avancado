@@ -15,7 +15,7 @@ T = 1e-3; % s
 
 % Condições iniciais do sistema
 pos0 = -5;            % posição inicial do carro (metros)
-ang0 = -179*(pi/180);  % ângulo inicial da haste (radianos)
+ang0 = 160*(pi/180);  % ângulo inicial da haste (radianos)
 
 x0 = [ pos0 ; 0 ; ang0 ; 0 ];
 

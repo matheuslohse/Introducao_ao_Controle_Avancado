@@ -53,6 +53,7 @@ if t == 0
     %P = [* 0;0 **] -> *Covariância da Posição do Ângulo -> Conhecido e Definido = R 
     %P = [* 0;0 **] -> **Convariância da Velocidade do Ângulo ->
     %Desconhecido em sistemas reais, aqui sabemos que vai começar parado
+    %P = Grau de Certeza que temos do sistema
     P = [R(1) 0; 0 1e-8];
     ua = 0;
 else

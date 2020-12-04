@@ -35,9 +35,8 @@ ta = 5;
 if t == 0 
     
     x_chapeu = [y(1); 0; y(2); 0]
-    P = [R(1) 0 0 0; 0 1e-8 0 0; 0 0 R(2) 0; 0 0 0 1e-8];
+    P = [R(1,1) 0 0 0; 0 1e-8 0 0; 0 0 R(2,2) 0; 0 0 0 1e-8];
     ua = 0;
-    x_barra = [r;0;pi;0];
 else
     %% Etapa de Predição
         % Parte do Provenienete da Design
@@ -107,7 +106,7 @@ else
       
       dE = E - Ed;
       
-      u =  u_max * sign(dE * ks * x_chapeu(4) * rho * cos(x_chapeu(3))) - kp*x_chapeu(1);
+      u =  u_max * sat(dE * ks * x_chapeu(4) * rho * cos(x_chapeu(3))) - kp*x_chapeu(1);
 end
     
 if u > 10 

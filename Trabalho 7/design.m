@@ -124,7 +124,7 @@ p = -(4/ta)*[3.1 3 2.9 2.8];
 K = place(A,B,p); 
 
 %% Parte Proveniente do Trabalho 7
-alpha = 1e-3;%? é um escalar positivo pequeno, preferencialmente menor que 1
+alpha = 1e-8;%? é um escalar positivo pequeno, preferencialmente menor que 1
 I = eye(4);%I é uma matriz identidade 4 por 4.
 Q = alpha * I;
 R = [10^-4 0 ; 0  10^-4];
