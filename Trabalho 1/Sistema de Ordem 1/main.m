@@ -45,15 +45,15 @@ title('Sinal de Controle (Entrada do Sistema)')
 
 y1=zeros(size(y));
 m=1;
-y1(m+1:end) = y(1:end-m);
+y1(m+1:end) = y(1:end-m); %y(n-1)
 
 u1=zeros(size(u));
 k=1;
-u1(k+1:end) = u(1:end-k);
+u1(k+1:end) = u(1:end-k);%u(n-1)
 
 u2=zeros(size(u));
 l=2;
-u2(l+1:end) = u(1:end-l);
+u2(l+1:end) = u(1:end-l); %u(n-2)
 
 psi = [y1 u1 u2];
 

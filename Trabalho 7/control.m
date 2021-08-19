@@ -33,8 +33,7 @@ ta = 5;
 
 %% EXTENDEND KALMAN FILTER
 if t == 0 
-    
-    x_chapeu = [y(1); 0; y(2); 0]
+    x_chapeu = [y(1); 0; y(2); 0];
     P = [R(1,1) 0 0 0; 0 1e-8 0 0; 0 0 R(2,2) 0; 0 0 0 1e-8];
     ua = 0;
 else

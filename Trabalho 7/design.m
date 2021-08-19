@@ -96,25 +96,7 @@ B_trab_7 = diff(x_dot,u);
 
 %% Questão 5
 
-% for i = 1:4;
-%     dif_x(i) = x(i) - x_barra(i);
-% end
-% dif_u = u - u_barra;
-
-%Malha Aberta:
-%Sistema_Linearizado = 0 + A*dif_x + B*dif_u;
-
-%Malha Fechada:
-%Sistema_Linearizado = 0 + A*dif_x + B*(-K*dif_x);
-%Sistema_Linearizado = (A-B*K)*dif_x;
-
-%Autovalores c/ parte real neg., s/parte imag.
-%Quanto mais negativo mais rápida a resposta
-
 ta = 5;
-
-%av = autovalores
-av = [0;3.550429689801335;-4.179623179432992; -0.495806510368343];
 
 A = double (A);
 B = double (B);
